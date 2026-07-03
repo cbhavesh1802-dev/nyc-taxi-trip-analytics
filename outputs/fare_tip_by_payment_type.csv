@@ -1,5 +1,6 @@
 payment_type,trip_count,avg_fare,avg_tip,avg_tip_pct
-Credit Card,32570,14.47,2.53,17.51
-Cash,15882,14.51,0.0,0.0
-No Charge,1030,14.75,0.0,0.0
-Dispute,518,14.73,0.0,0.0
+Credit Card,30867751,12.91,2.75,21.27
+Cash,16149173,11.41,0.0,0.0
+No Charge,152459,15.05,0.01,0.05
+Dispute,48416,13.95,0.0,0.03
+Other,2,8.0,0.0,0.0

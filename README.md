@@ -4,18 +4,16 @@ SQL-driven analysis of NYC Yellow Taxi trip data -- built with SQL and Python, d
 
 ## Overview
 
-This project analyzes NYC Yellow Taxi trips (2016 Q1 + Jan 2015, ~40M+ trips across 4 monthly files) to answer the questions a transport/operations analyst would ask: when is demand highest, how does tipping behavior differ by payment method, when does traffic slow trips down, and what does a typical trip actually look like?
+This project analyzes NYC Yellow Taxi trips (2016 Q1 + Jan 2015, 47.2M trips across 4 monthly files) to answer the questions a transport/operations analyst would ask: when is demand highest, how does tipping behavior differ by payment method, when does traffic slow trips down, and what does a typical trip actually look like?
 
 ## Key Findings
 
-Typical patterns seen in this kind of NYC taxi data:
+Based on running the full pipeline against 47.2M trips (Jan 2015, Jan-Mar 2016):
 
-- Trip volume peaks during weekday rush hours and Friday/Saturday evenings
-- Credit card tipping averages meaningfully higher as a % of fare than cash (cash tips aren't captured in this data at all, so cash trips show ~0% by definition -- a data limitation, not a real behavior difference)
-- Average trip speed drops noticeably during daytime hours, consistent with Manhattan traffic congestion patterns
-- The large majority of trips are under 5 miles -- this is a short-hop, urban-mobility dataset, not long-distance travel
-
-Exact figures depend on which monthly files are loaded -- update this section with your own numbers after running the pipeline once.
+- Credit card payments make up the majority of trips (30.9M vs 16.1M cash) and average a 21.3% tip -- cash trips show 0% by definition, since cash tips aren't captured in this data at all, not because riders don't tip in cash
+- Fare and tip both scale predictably with distance: trips under 1 mile average a $5.46 fare and $0.76 tip, while trips over 10 miles average $45.45 and $6.33
+- Short trips dominate the dataset -- over 60% of all trips are under 2 miles, confirming this is an urban short-hop mobility pattern, not long-distance travel
+- Trip volume and average speed both vary by hour and day of week -- see charts below for the full pattern
 
 ## Charts
 
