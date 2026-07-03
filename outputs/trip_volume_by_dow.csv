@@ -1,0 +1,8 @@
+pickup_dow,day_name,trip_count,avg_total_amount
+0,Monday,7217,17.37
+1,Tuesday,7098,17.46
+2,Wednesday,7233,17.41
+3,Thursday,6787,17.53
+4,Friday,7134,17.36
+5,Saturday,7285,17.53
+6,Sunday,7246,17.42
