@@ -13,7 +13,8 @@ Based on running the full pipeline against 47.2M trips (Jan 2015, Jan-Mar 2016):
 - Credit card payments make up the majority of trips (30.9M vs 16.1M cash) and average a 21.3% tip -- cash trips show 0% by definition, since cash tips aren't captured in this data at all, not because riders don't tip in cash
 - Fare and tip both scale predictably with distance: trips under 1 mile average a $5.46 fare and $0.76 tip, while trips over 10 miles average $45.45 and $6.33
 - Short trips dominate the dataset -- over 60% of all trips are under 2 miles, confirming this is an urban short-hop mobility pattern, not long-distance travel
-- Trip volume and average speed both vary by hour and day of week -- see charts below for the full pattern
+- Peak demand hour is 6pm (nearly 3.0M trips), with the evening rush (6-10pm) consistently the busiest window of the day
+- Friday is the busiest day (7.59M trips), while Sunday has the highest average fare ($16.07) despite lower volume -- likely a mix of longer leisure trips and less short-hop commuter traffic
 
 ## Charts
 
