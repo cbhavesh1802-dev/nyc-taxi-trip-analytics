@@ -4,14 +4,14 @@ never holds a full file in memory, so this scales cleanly from a small
 file up to the full multi-gigabyte monthly extracts.
 
 By default it looks for CSVs matching data/yellow_tripdata_*.csv.
-To load files from elsewhere (e.g. ~/Documents, if you don't want to
+To load files from elsewhere (e.g. ~/Documents, if you do not want to
 copy multi-GB files into this repo folder), set the SOURCE_DIR
 environment variable:
 
     TAXI_DATA_DIR=~/Documents python3 sql/load_db.py
 
 Derived columns (trip_duration_min, pickup_hour, pickup_dow, pickup_month)
-are computed once at load time so downstream SQL queries don't need to
+are computed once at load time so downstream SQL queries do not need to
 re-parse datetimes on every run.
 """
 
@@ -30,24 +30,33 @@ DB_PATH = os.path.join(DEFAULT_DATA_DIR, "taxi_analytics.db")
 SOURCE_DIR = os.path.expanduser(os.environ.get("TAXI_DATA_DIR", DEFAULT_DATA_DIR))
 CHUNK_SIZE = 200_000
 
-KEEP_COLUMNS = [
-    "VendorID", "tpep_pickup_datetime", "tpep_dropoff_datetime",
-    "passenger_count", "trip_distance", "RatecodeID", "payment_type",
-    "fare_amount", "extra", "mta_tax", "tip_amount", "tolls_amount",
-    "improvement_surcharge", "total_amount",
-]
-
-RENAME_MAP = {
-    "VendorID": "vendor_id",
+COLUMN_MAP = {
+    "vendorid": "vendor_id",
     "tpep_pickup_datetime": "pickup_datetime",
     "tpep_dropoff_datetime": "dropoff_datetime",
-    "RatecodeID": "ratecode_id",
+    "passenger_count": "passenger_count",
+    "trip_distance": "trip_distance",
+    "ratecodeid": "ratecode_id",
+    "payment_type": "payment_type",
+    "fare_amount": "fare_amount",
+    "extra": "extra",
+    "mta_tax": "mta_tax",
+    "tip_amount": "tip_amount",
+    "tolls_amount": "tolls_amount",
+    "improvement_surcharge": "improvement_surcharge",
+    "total_amount": "total_amount",
 }
+
+TARGET_COLUMNS = [
+    "vendor_id", "pickup_datetime", "dropoff_datetime", "passenger_count",
+    "trip_distance", "ratecode_id", "payment_type", "fare_amount", "extra",
+    "mta_tax", "tip_amount", "tolls_amount", "improvement_surcharge", "total_amount",
+]
 
 
 def process_chunk(chunk):
-    chunk = chunk[[c for c in KEEP_COLUMNS if c in chunk.columns]].copy()
-    chunk = chunk.rename(columns=RENAME_MAP)
+    chunk = chunk.rename(columns={c: COLUMN_MAP[c.lower()] for c in chunk.columns if c.lower() in COLUMN_MAP})
+    chunk = chunk.reindex(columns=TARGET_COLUMNS)
 
     chunk["pickup_datetime"] = pd.to_datetime(chunk["pickup_datetime"], errors="coerce")
     chunk["dropoff_datetime"] = pd.to_datetime(chunk["dropoff_datetime"], errors="coerce")
@@ -56,7 +65,7 @@ def process_chunk(chunk):
         (chunk["dropoff_datetime"] - chunk["pickup_datetime"]).dt.total_seconds() / 60
     )
     chunk["pickup_hour"] = chunk["pickup_datetime"].dt.hour
-    chunk["pickup_dow"] = chunk["pickup_datetime"].dt.dayofweek  # 0=Monday
+    chunk["pickup_dow"] = chunk["pickup_datetime"].dt.dayofweek
     chunk["pickup_month"] = chunk["pickup_datetime"].dt.strftime("%Y-%m")
 
     chunk["pickup_datetime"] = chunk["pickup_datetime"].astype(str)
